@@ -1,0 +1,184 @@
+<!--
+%\VignetteEngine{knitr::knitr}
+%\VignetteIndexEntry{mregions introduction}
+%\VignetteEncoding{UTF-8}
+-->
+
+```{r echo=FALSE}
+knitr::opts_chunk$set(
+  comment = "#>",
+  collapse = TRUE,
+  warning = FALSE,
+  message = FALSE
+)
+```
+
+mregions introduction
+=====================
+
+`mregions` is useful to a wide diversity of R users because you get access to all of the 
+data MarineRegions has, which can help in a variety of use cases:
+
+* Visualize marine regions alone
+* Visualize marine regions with associated data paired with analysis
+* Use marine region geospatial boundaries to query data providers (e.g., OBIS (<http://www.iobis.org>))
+* Geocode - get geolocation data from place names
+* Reverse Geocode - get place names from geolocation data
+
+## Install
+
+Stable version
+
+```{r eval=FALSE}
+install.packages("mregions")
+```
+
+Dev version
+
+```{r eval=FALSE}
+devtools::install_github("ropenscilabs/mregions")
+install.packages("leaflet")
+```
+
+```{r}
+library("mregions")
+```
+
+## Get list of place types
+
+```{r}
+res <- mr_place_types()
+head(res$type)
+```
+
+## Get Marineregions records by place type
+
+```{r}
+res1 <- mr_records_by_type(type = "EEZ")
+head(res1)
+```
+
+## Get a data.frame of region names
+
+```{r}
+rnames <- mr_names()
+```
+
+## Search region names
+
+Either pass output of `mr_names()` 
+
+```{r}
+mr_names_search(rnames, "IHO")
+```
+
+or don't (but then `mr_names_search()` call takes longer)
+
+```{r}
+mr_names_search("IHO")
+```
+
+## Get a region - geojson
+
+```{r}
+res3 <- mr_geojson(name = "Turkmen Exclusive Economic Zone")
+class(res3)
+names(res3)
+```
+
+## Get a region - shp
+
+```{r}
+res4 <- mr_shp(name = "Belgian Exclusive Economic Zone")
+class(res4)
+```
+
+## Get OBIS EEZ ID
+
+```{r}
+res6 <- rnames[grepl("eez", rnames$name, ignore.case = TRUE), ]
+mr_obis_eez_id(res6$title)
+```
+
+## Convert to WKT
+
+From geojson or shp. Here, geojson
+
+```{r eval=FALSE}
+res7 <- mr_geojson(key = "MarineRegions:eez_33176")
+mr_as_wkt(res7, fmt = 5)
+#> [1] "MULTIPOLYGON (((41.573732 -1.659444, 45.891882 ... cutoff
+```
+
+## Get regions, then OBIS data
+
+Using Well-Known Text. Both shp and geojson data returned from `region_shp()` and `region_geojson()`, respectively, can be passed to `as_wkt()` to get WKT.
+
+```{r}
+shp <- mr_shp(name = "Belgian Exclusive Economic Zone")
+wkt <- mr_as_wkt(shp)
+library('httr')
+library('data.table')
+args <- list(scientificname = "Abra alba", geometry = wkt, limit = 100)
+res <- httr::GET('http://api.iobis.org/occurrence', query = args)
+xx <- data.table::setDF(data.table::rbindlist(httr::content(res)$results, use.names = TRUE, fill = TRUE))
+xx <- xx[, c('scientificName', 'decimalLongitude', 'decimalLatitude')]
+names(xx)[2:3] <- c('longitude', 'latitude')
+```
+
+Plot
+
+```{r eval=FALSE}
+library('leaflet')
+leaflet() %>%
+  addTiles() %>%
+  addCircleMarkers(data = xx) %>%
+  addPolygons(data = shp)
+```
+
+![map1](figure/map1.png)
+
+## Dealing with bigger WKT
+
+What if you're WKT string is super long?  It's often a problem because some online species occurrence databases that accept WKT to search by geometry bork due to
+limitations on length of URLs if your WKT string is too long (about 8000 characters,
+including remainder of URL). One way to deal with it is to reduce detail - simplify.
+
+```{r eval=FALSE}
+install.packages("rmapshaper")
+```
+
+Using `rmapshaper` we can simplify a spatial object, then search with that.
+
+```{r}
+shp <- mr_shp(name = "Dutch Exclusive Economic Zone")
+```
+
+Visualize
+
+```{r eval=FALSE}
+leaflet() %>%
+  addTiles() %>%
+  addPolygons(data = shp)
+```
+
+![map2](figure/complex.png)
+
+Simplify
+
+```{r}
+library("rmapshaper")
+shp <- ms_simplify(shp)
+```
+
+It's simplified:
+
+```{r eval=FALSE}
+leaflet() %>%
+  addTiles() %>%
+  addPolygons(data = shp)
+```
+
+![map3](figure/simple.png)
+
+[mr]: https://github.com/ropenscilabs/mregions
