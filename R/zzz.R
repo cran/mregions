@@ -7,9 +7,14 @@ m_GET <- function(url, args, path = NULL, overwrite = NULL, format = "applicatio
     tt <- httr::GET(url, query = args, httr::write_disk(path = path, overwrite = overwrite), ...)
     httr::stop_for_status(tt)
     file <- tt$request$output$path
+    on.exit(unlink(file))
     exdir <- sub(".zip", "", path)
     utils::unzip(file, exdir = exdir)
-    on.exit(unlink(file))
+    if (length(list.files(exdir)) == 0) {
+      unlink(file)
+      unlink(exdir, TRUE)
+      stop("unzip failed, check query, try again - & removed files", call. = FALSE)
+    }
     path.expand(list.files(exdir, pattern = ".shp", full.names = TRUE))
   } else {
     getter(url, args, format, ...)
@@ -20,6 +25,19 @@ getter <- function(url, args = list(), format, ...) {
   tt <- httr::GET(url, query = args, ...)
   err_handle(tt, format)
   contutf8(tt)
+}
+
+getter2 <- function(url, args = list(), format, path, ...) {
+  if (format %in% c('application/zip')) {
+    tt <- httr::GET(url, query = args,
+                    httr::write_disk(path = path, overwrite = TRUE), ...)
+    err_handle(tt, format)
+    tt$request$output$path
+  } else {
+    tt <- httr::GET(url, query = args, ...)
+    err_handle(tt, format)
+    contutf8(tt)
+  }
 }
 
 contutf8 <- function(x) httr::content(x, "text", encoding = "UTF-8")
@@ -57,11 +75,12 @@ make_args <- function(format, name, key, maxFeatures) {
 nameorkey <- function(name, key) {
   stopifnot(xor(!is.null(name), !is.null(key)))
   if (is.null(key)) {
-    nms <- mr_names()
-    nms[nms$title == name, ]$name
+    xx <- c('MarineRegions:eez','MarineRegions:eez_boundaries',
+            'MarineRegions:iho','MarineRegions:fao', 'MarineRegions:lme')
+    nms <- dtdf(lapply(xx, mr_names))
+    nms[nms$geoname == name, ]$name
   } else {
     key
-    #strsplit(key, ":")[[1]][2]
   }
 }
 
@@ -75,4 +94,9 @@ pluck <- function(x, name, type) {
 
 `%&%` <- function(x, y) {
   if (length(x) == 0) y else x
+}
+
+dtdf <- function(x) {
+  (zzz <- data.table::setDF(data.table::rbindlist(x, fill = TRUE,
+                                                  use.names = TRUE)))
 }

@@ -17,7 +17,8 @@ against titles via \code{\link{mr_names}} function}
 
 \item{maxFeatures}{(integer) Number of features}
 
-\item{overwrite}{(logical) Overwrite file if already exists. Default: \code{FALSE}}
+\item{overwrite}{(logical) Overwrite file if already exists.
+Default: \code{FALSE}}
 
 \item{read}{(logical) To read in as spatial object. If \code{FALSE} a path
 given back. if \code{TRUE}, you need the \code{rgdal} package installed.
@@ -25,11 +26,14 @@ Default: \code{FALSE}}
 
 \item{filter}{(character) String to filter features on}
 
-\item{...}{Curl options passed on to \code{\link[httr]{GET}}}
+\item{...}{Curl options passed on to \code{\link[httr]{GET}}. since we
+use caching, note that if you've made the exact same request before and the
+file is still in cache, we grab the cached file and don't make an HTTP
+request, so any curl options passed would be ignored.}
 }
 \value{
-A \code{SpatialPolygonsDataFrame} if \code{read=TRUE}, or a path to
-a SHP file on disk if \code{read=FALSE}.
+A \code{SpatialPolygonsDataFrame} if \code{read = TRUE}, or a path to
+a SHP file on disk if \code{read = FALSE}.
 }
 \description{
 Get a region shp file
@@ -38,26 +42,65 @@ Get a region shp file
 We use \pkg{rappdirs} to determine where to cache data depening on
 your operating system. See \code{rappdirs::user_cache_dir("mregions")} for
 location on your machine
+
+We cache based on the name of the region plus the \code{maxFeatures}
+parameter. That is to say, you can query the same region name, but
+with different \code{maxFeatures} parameter values, and they will get
+cached separately. You can clear the cache by going to the directory at
+\code{rappdirs::user_cache_dir("mregions")} and deleting the files.
+
+We use \code{stringsAsFactors = FALSE} inside of \code{rgdal::readOGR()}
+so that character variables aren't converted to factors.
+}
+\note{
+the parameter \code{name} is temporarily not useable. MarineRegions
+updated their web services, and we haven't sorted out yet how to make
+this feature work. We may bring it back in future version of this pacakge.
 }
 \examples{
 \dontrun{
 ## just get path
-mr_shp(key = "MarineRegions:eez_33176", read = FALSE)
+mr_shp(key = "MarineRegions:eez_iho_union_v2", read = FALSE)
 ## read shp file into spatial object
-res <- mr_shp(key = "MarineRegions:eez_33176", read = TRUE)
+res <- mr_shp(key = "MarineRegions:eez_iho_union_v2", read = TRUE)
 
 mr_shp(key = "SAIL:w_marinehabitatd")
 
+# maxFeatures
+library(sp)
+plot(mr_shp(key = "MarineRegions:eez_iho_union_v2"))
+plot(mr_shp(key = "MarineRegions:eez_iho_union_v2", maxFeatures = 5))
+
+# vizualize with package leaflet
 if (requireNamespace("leaflet")) {
   library('leaflet')
   leaflet() \%>\%
-    addProviderTiles(provider = "Stamen.TonerHybrid") \%>\%
+    addTiles() \%>\%
     addPolygons(data = res)
 }
 
 # use `filter` param to get a subset of a region
-mr_shp(name="World Marine Heritage Sites", maxFeatures=NULL,
-  filter="iSimangaliso Wetland Park")
+library(sp)
+pp <- mr_shp(key = "MarineRegions:eez_iho_union_v2")
+plot(pp)
+rr <- mr_shp(key = "MarineRegions:eez_iho_union_v2",
+  filter = "North Atlantic Ocean")
+plot(rr)
+
+# get Samoan Exclusive Economic Zone
+res <- mr_shp(
+  key = "MarineRegions:eez",
+  filter = "Samoan Exclusive Economic Zone"
+)
+sp::plot(res)
+
+
+# use curl options
+library(httr)
+res <- mr_shp(
+  key = "MarineRegions:eez",
+  config = verbose()
+)
 }
 }
 
