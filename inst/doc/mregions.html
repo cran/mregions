@@ -296,35 +296,36 @@ head(res1)
 <p>Either pass output of <code>mr_names()</code></p>
 
 <pre><code class="r">mr_names_search(rnames, &quot;IHO&quot;)
-#&gt; # A tibble: 7 × 6
-#&gt;               layer    name_first name_second     id                      name mrgid
-#&gt;               &lt;chr&gt;         &lt;chr&gt;       &lt;chr&gt;  &lt;chr&gt;                     &lt;chr&gt; &lt;chr&gt;
-#&gt; 1 MarineRegions:iho MarineRegions         iho iho.34            Gulf of Mexico  4288
-#&gt; 2 MarineRegions:iho MarineRegions         iho iho.37           Rio de La Plata  4325
-#&gt; 3 MarineRegions:iho MarineRegions         iho iho.82                Ionian Sea  3351
-#&gt; 4 MarineRegions:iho MarineRegions         iho iho.65            Sea of Okhotsk  4309
-#&gt; 5 MarineRegions:iho MarineRegions         iho iho.69        Gulf of California  4314
-#&gt; 6 MarineRegions:iho MarineRegions         iho iho.95                 Timor Sea  4344
-#&gt; 7 MarineRegions:iho MarineRegions         iho iho.62 Seto Naikai or Inland Sea  4306
+#&gt; # A tibble: 7 x 6
+#&gt;               layer    name_first name_second     id
+#&gt;               &lt;chr&gt;         &lt;chr&gt;       &lt;chr&gt;  &lt;chr&gt;
+#&gt; 1 MarineRegions:iho MarineRegions         iho  iho.1
+#&gt; 2 MarineRegions:iho MarineRegions         iho  iho.7
+#&gt; 3 MarineRegions:iho MarineRegions         iho iho.18
+#&gt; 4 MarineRegions:iho MarineRegions         iho iho.40
+#&gt; 5 MarineRegions:iho MarineRegions         iho iho.53
+#&gt; 6 MarineRegions:iho MarineRegions         iho iho.76
+#&gt; 7 MarineRegions:iho MarineRegions         iho iho.94
+#&gt; # ... with 2 more variables: name &lt;chr&gt;, mrgid &lt;chr&gt;
 </code></pre>
 
 <p>or don&#39;t (but then <code>mr_names_search()</code> call takes longer)</p>
 
 <pre><code class="r">mr_names_search(&quot;iho&quot;, q = &quot;Sea&quot;)
-#&gt; # A tibble: 74 × 6
-#&gt;                layer    name_first name_second     id                                      name mrgid
-#&gt;                &lt;chr&gt;         &lt;chr&gt;       &lt;chr&gt;  &lt;chr&gt;                                     &lt;chr&gt; &lt;chr&gt;
-#&gt; 1  MarineRegions:iho MarineRegions         iho  iho.1 Inner Seas off the West Coast of Scotland  4283
-#&gt; 2  MarineRegions:iho MarineRegions         iho  iho.2         Mediterranean Sea - Western Basin  4279
-#&gt; 3  MarineRegions:iho MarineRegions         iho  iho.3         Mediterranean Sea - Eastern Basin  4280
-#&gt; 4  MarineRegions:iho MarineRegions         iho  iho.4                            Sea of Marmara  3369
-#&gt; 5  MarineRegions:iho MarineRegions         iho  iho.5                                 Black Sea  3319
-#&gt; 6  MarineRegions:iho MarineRegions         iho  iho.6                               Sea of Azov  3320
-#&gt; 7  MarineRegions:iho MarineRegions         iho  iho.7        Irish Sea and St. George&#39;s Channel  2357
-#&gt; 8  MarineRegions:iho MarineRegions         iho iho.10                             Bay of Biscay  2359
-#&gt; 9  MarineRegions:iho MarineRegions         iho iho.11                                Celtic Sea  2351
-#&gt; 10 MarineRegions:iho MarineRegions         iho iho.14                                 North Sea  2350
-#&gt; # ... with 64 more rows
+#&gt; # A tibble: 73 x 6
+#&gt;                layer    name_first name_second     id
+#&gt;                &lt;chr&gt;         &lt;chr&gt;       &lt;chr&gt;  &lt;chr&gt;
+#&gt;  1 MarineRegions:iho MarineRegions         iho  iho.3
+#&gt;  2 MarineRegions:iho MarineRegions         iho  iho.4
+#&gt;  3 MarineRegions:iho MarineRegions         iho  iho.6
+#&gt;  4 MarineRegions:iho MarineRegions         iho  iho.7
+#&gt;  5 MarineRegions:iho MarineRegions         iho  iho.8
+#&gt;  6 MarineRegions:iho MarineRegions         iho iho.10
+#&gt;  7 MarineRegions:iho MarineRegions         iho iho.15
+#&gt;  8 MarineRegions:iho MarineRegions         iho iho.16
+#&gt;  9 MarineRegions:iho MarineRegions         iho iho.17
+#&gt; 10 MarineRegions:iho MarineRegions         iho iho.27
+#&gt; # ... with 63 more rows, and 2 more variables: name &lt;chr&gt;, mrgid &lt;chr&gt;
 </code></pre>
 
 <h2>Get a region - geojson</h2>
@@ -333,7 +334,7 @@ head(res1)
 class(res3)
 #&gt; [1] &quot;mr_geojson&quot;
 names(res3)
-#&gt; [1] &quot;type&quot;          &quot;totalFeatures&quot; &quot;features&quot;      &quot;crs&quot;           &quot;bbox&quot;
+#&gt; [1] &quot;type&quot;          &quot;totalFeatures&quot; &quot;features&quot;      &quot;crs&quot;
 </code></pre>
 
 <h2>Get a region - shp</h2>
