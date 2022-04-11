@@ -7,14 +7,14 @@
 mr_as_wkt(x, fmt = 16, ...)
 }
 \arguments{
-\item{x}{Output from \code{\link{mr_geojson}}, \code{\link{mr_shp}},
+\item{x}{Output from \code{\link[=mr_geojson]{mr_geojson()}}, \code{\link[=mr_shp]{mr_shp()}},
 or a \code{SpatialPolygonsDataFrame}}
 
 \item{fmt}{(integer) The number of digits to display after the decimal
 point when formatting coordinates. Ignored when shp files or
 \code{SpatialPolygonsDataFrame} passed in}
 
-\item{...}{Further args passed on to \code{\link[jsonlite]{fromJSON}} only
+\item{...}{Further args passed on to \code{\link[jsonlite:fromJSON]{jsonlite::fromJSON()}} only
 in the event of json passed as a character string. Ignored when shp files or
 \code{SpatialPolygonsDataFrame} passed in}
 }
@@ -35,7 +35,7 @@ WKT. You could do the conversion to WKT yourself, but we provide
 \examples{
 \dontrun{
 res <- mr_geojson(key = "Morocco:dam")
-mr_as_wkt(res, fmt = 5)
+mr_as_wkt(res)
 
 # shp files
 ## path to wkt

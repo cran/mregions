@@ -4,16 +4,15 @@
 #' @param layer A layer name, one of MarineRegions:eez,
 #' MarineRegions:eez_boundaries, MarineRegions:iho, MarineRegions:fao,
 #' or MarineRegions:lme
-#' @param ... Curl options passed on to \code{\link[httr]{GET}}
+#' @param ... Curl options passed on to [httr::GET()]
 #'
 #' @return a data.frame, or tibble, of class tbl_df (basically, a compact
 #' data.frame), with slots:
-#' \itemize{
-#'  \item layer (character) - name of the layer (e.g. MarineRegions:eez)
-#'  \item name_first (character) - first part of the name, e.g., MarineRegions
-#'  \item name_second (character) - second part of the name, e.g., eez
-#'  \item id (character) - the feature ID
-#' }
+#' - layer (character) - name of the layer (e.g. MarineRegions:eez)
+#' - name_first (character) - first part of the name, e.g., MarineRegions
+#' - name_second (character) - second part of the name, e.g., eez
+#' - id (character) - the feature ID
+#'
 #' additional columns vary by layer
 #'
 #' @examples \dontrun{
@@ -32,7 +31,7 @@ mr_names <- function(layer, ...) {
                 args, format = "text/xml; subtype=gml/3.2", ...)
   xml <- xml2::read_xml(res)
   xml2::xml_ns_strip(xml)
-  tibble::as_data_frame(dtdf(
+  tibble::as_tibble(dtdf(
     lapply(xml2::xml_find_all(xml, "//wfs:member"), function(z) {
       c(
         layer = layer,

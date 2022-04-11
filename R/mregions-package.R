@@ -1,25 +1,35 @@
 #' Marine regions data from Marineregions
 #'
+#'Tools to get marine regions data from
+#'\url{https://www.marineregions.org/}. Includes tools to get region metadata,
+#'as well as data in 'GeoJSON' format, as well as Shape files. Use cases
+#'include using data downstream to visualize 'geospatial' data by marine
+#'region, mapping variation among different regions, and more.
+#'
 #' @name mregions-package
 #' @aliases mregions
 #' @docType package
-#' @author Scott Chamberlain \email{myrmecocystus@@gmail.com}
+#' @author Scott Chamberlain
+#' @author Francois Michonneau
+#' @author Pieter Provoost
+#' @author Michael Sumner
+#' @author Lennert Schepers
+#' @author Salvador Fernandez \email{salvador.fernandez@@vliz.be}
 #' @keywords package
-#' @details mregions gets data from <http://www.marineregions.org/>
+#' @details mregions gets data from <https://www.marineregions.org/>
+#' @importFrom utils URLencode
 #'
 #' @section Use-cases:
 #' \pkg{mregions} is useful to a wide diversity of R users because you get
 #' access to all of the data MarineRegions has, which can help in a
 #' variety of use cases:
 #'
-#' \itemize{
-#'  \item Visualize marine regions alone
-#'  \item Visualize marine regions with associated data paired with analysis
-#'  \item Use marine region geospatial boundaries to query data providers
-#'  (e.g., OBIS (<http://www.iobis.org>))
-#'  \item Geocode - get geolocation data from place names
-#'  \item Reverse Geocode - get place names from geolocation data
-#' }
+#' - Visualize marine regions alone
+#' - Visualize marine regions with associated data paired with analysis
+#' - Use marine region geospatial boundaries to query data providers
+#'  (e.g., OBIS (<https://www.obis.org>))
+#' - Geocode - get geolocation data from place names
+#' - Reverse Geocode - get place names from geolocation data
 #'
 #' @examples \dontrun{
 #' ## GeoJSON

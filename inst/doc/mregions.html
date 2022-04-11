@@ -215,7 +215,7 @@ data MarineRegions has, which can help in a variety of use cases:</p>
 <ul>
 <li>Visualize marine regions alone</li>
 <li>Visualize marine regions with associated data paired with analysis</li>
-<li>Use marine region geospatial boundaries to query data providers (e.g., OBIS (<a href="http://www.iobis.org">http://www.iobis.org</a>))</li>
+<li>Use marine region geospatial boundaries to query data providers (e.g., OBIS (<a href="https://www.obis.org">https://www.obis.org</a>))</li>
 <li>Geocode - get geolocation data from place names</li>
 <li>Reverse Geocode - get place names from geolocation data</li>
 </ul>
@@ -229,7 +229,7 @@ data MarineRegions has, which can help in a variety of use cases:</p>
 
 <p>Dev version</p>
 
-<pre><code class="r">devtools::install_github(&quot;ropenscilabs/mregions&quot;)
+<pre><code class="r">devtools::install_github(&quot;ropensci/mregions&quot;)
 install.packages(&quot;leaflet&quot;)
 </code></pre>
 
@@ -257,12 +257,12 @@ head(res1)
 #&gt; 5  5672
 #&gt; 6  5673
 #&gt;                                                                                                                                                                                                             gazetteerSource
-#&gt; 1 Flanders Marine Institute (2016). Maritime Boundaries Geodatabase: Maritime Boundaries and Exclusive Economic Zones (200NM), version 9. Available online at http://www.marineregions.org/. http://dx.doi.org/10.14284/242
-#&gt; 2 Flanders Marine Institute (2016). Maritime Boundaries Geodatabase: Maritime Boundaries and Exclusive Economic Zones (200NM), version 9. Available online at http://www.marineregions.org/. http://dx.doi.org/10.14284/242
-#&gt; 3 Flanders Marine Institute (2016). Maritime Boundaries Geodatabase: Maritime Boundaries and Exclusive Economic Zones (200NM), version 9. Available online at http://www.marineregions.org/. http://dx.doi.org/10.14284/242
-#&gt; 4 Flanders Marine Institute (2016). Maritime Boundaries Geodatabase: Maritime Boundaries and Exclusive Economic Zones (200NM), version 9. Available online at http://www.marineregions.org/. http://dx.doi.org/10.14284/242
-#&gt; 5 Flanders Marine Institute (2016). Maritime Boundaries Geodatabase: Maritime Boundaries and Exclusive Economic Zones (200NM), version 9. Available online at http://www.marineregions.org/. http://dx.doi.org/10.14284/242
-#&gt; 6 Flanders Marine Institute (2016). Maritime Boundaries Geodatabase: Maritime Boundaries and Exclusive Economic Zones (200NM), version 9. Available online at http://www.marineregions.org/. http://dx.doi.org/10.14284/242
+#&gt; 1 Flanders Marine Institute (2016). Maritime Boundaries Geodatabase: Maritime Boundaries and Exclusive Economic Zones (200NM), version 9. Available online at https://www.marineregions.org/. http://dx.doi.org/10.14284/242
+#&gt; 2 Flanders Marine Institute (2016). Maritime Boundaries Geodatabase: Maritime Boundaries and Exclusive Economic Zones (200NM), version 9. Available online at https://www.marineregions.org/. http://dx.doi.org/10.14284/242
+#&gt; 3 Flanders Marine Institute (2016). Maritime Boundaries Geodatabase: Maritime Boundaries and Exclusive Economic Zones (200NM), version 9. Available online at https://www.marineregions.org/. http://dx.doi.org/10.14284/242
+#&gt; 4 Flanders Marine Institute (2016). Maritime Boundaries Geodatabase: Maritime Boundaries and Exclusive Economic Zones (200NM), version 9. Available online at https://www.marineregions.org/. http://dx.doi.org/10.14284/242
+#&gt; 5 Flanders Marine Institute (2016). Maritime Boundaries Geodatabase: Maritime Boundaries and Exclusive Economic Zones (200NM), version 9. Available online at https://www.marineregions.org/. http://dx.doi.org/10.14284/242
+#&gt; 6 Flanders Marine Institute (2016). Maritime Boundaries Geodatabase: Maritime Boundaries and Exclusive Economic Zones (200NM), version 9. Available online at https://www.marineregions.org/. http://dx.doi.org/10.14284/242
 #&gt;   placeType latitude longitude minLatitude minLongitude maxLatitude
 #&gt; 1       EEZ 51.46483  2.704458    51.09111     2.238118    51.87000
 #&gt; 2       EEZ 53.61508  4.190675    51.26203     2.539443    55.76500
@@ -344,12 +344,6 @@ class(res4)
 #&gt; [1] &quot;SpatialPolygonsDataFrame&quot;
 #&gt; attr(,&quot;package&quot;)
 #&gt; [1] &quot;sp&quot;
-</code></pre>
-
-<h2>Get OBIS EEZ ID</h2>
-
-<pre><code class="r">mr_obis_eez_id(&quot;Bulgarian Exclusive Economic Zone&quot;)
-#&gt; [1] 71
 </code></pre>
 
 <h2>Convert to WKT</h2>

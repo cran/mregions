@@ -6,24 +6,27 @@
 \alias{mregions}
 \title{Marine regions data from Marineregions}
 \description{
-Marine regions data from Marineregions
+Tools to get marine regions data from
+\url{https://www.marineregions.org/}. Includes tools to get region metadata,
+as well as data in 'GeoJSON' format, as well as Shape files. Use cases
+include using data downstream to visualize 'geospatial' data by marine
+region, mapping variation among different regions, and more.
 }
 \details{
-mregions gets data from <http://www.marineregions.org/>
+mregions gets data from \url{https://www.marineregions.org/}
 }
 \section{Use-cases}{
 
 \pkg{mregions} is useful to a wide diversity of R users because you get
 access to all of the data MarineRegions has, which can help in a
 variety of use cases:
-
 \itemize{
- \item Visualize marine regions alone
- \item Visualize marine regions with associated data paired with analysis
- \item Use marine region geospatial boundaries to query data providers
- (e.g., OBIS (<http://www.iobis.org>))
- \item Geocode - get geolocation data from place names
- \item Reverse Geocode - get place names from geolocation data
+\item Visualize marine regions alone
+\item Visualize marine regions with associated data paired with analysis
+\item Use marine region geospatial boundaries to query data providers
+(e.g., OBIS (\url{https://www.obis.org}))
+\item Geocode - get geolocation data from place names
+\item Reverse Geocode - get place names from geolocation data
 }
 }
 
@@ -63,6 +66,16 @@ mr_as_wkt(mr_shp(key = "Morocco:dam", read = TRUE))
 }
 }
 \author{
-Scott Chamberlain \email{myrmecocystus@gmail.com}
+Scott Chamberlain
+
+Francois Michonneau
+
+Pieter Provoost
+
+Michael Sumner
+
+Lennert Schepers
+
+Salvador Fernandez \email{salvador.fernandez@vliz.be}
 }
 \keyword{package}
